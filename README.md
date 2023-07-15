@@ -32,10 +32,21 @@
 
 - 키워드 등록 기능
   - 사용자는 키워드를 등록해 다른 사용자가 게시글 키워드를 입력했을 경우 알람을 받을 수 있다.
+- 리뷰 기능
+  - 거래 완료 후 거래 당사자간 리뷰를 작성/수정/삭제할 수 있다.
+  - 회원가입된 사용자는 회원 정보 조회를 통해 리뷰를 조회할 수 있다.
+
+
+### ERD
+![erd.png](doc/img/erd.png)
+
+### Trouble Shooting
+[Go to Trouble Shooting MD](doc/TROUBLE_SHOOTING.md)
+
+### Tech Stack
 
 
 
 
 
-
-
+  
