@@ -20,19 +20,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "trade")
-public class Trade extends BaseEntity {
+@Table(name = "product")
+public class Product extends BaseEntity {
     @Id
-    @Column(name ="trade_id", nullable = false)
+    @Column(name ="product_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
     private String content;
-    private Long price;
-    private String tradeStatus;
     private String keywords;
-    private boolean discountYn;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
