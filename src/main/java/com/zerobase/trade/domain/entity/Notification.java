@@ -27,13 +27,13 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String content;
-    private boolean isRead;
+    private String notificationContent;
+    private LocalDateTime readAt;
     private String relatedRrl;
     private LocalDateTime createAt;
     private LocalDateTime sendTimeAt;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member memberId;
 
 }

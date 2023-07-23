@@ -1,13 +1,12 @@
 package com.zerobase.trade.repository;
 
 
-import com.zerobase.trade.domain.entity.Member;
-import com.zerobase.trade.domain.entity.Trade;
+import com.zerobase.trade.domain.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TradeRepository extends JpaRepository<Trade, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
 
 }

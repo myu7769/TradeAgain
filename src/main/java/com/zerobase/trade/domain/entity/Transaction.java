@@ -1,36 +1,34 @@
 package com.zerobase.trade.domain.entity;
 
 import com.zerobase.trade.domain.model.BaseEntity;
-
-import javax.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "photo")
-public class Photo extends BaseEntity {
+@Table(name = "transaction")
+public class Transaction extends BaseEntity {
     @Id
-    @Column(name ="photos_id", nullable = false)
+    @Column(name ="transaction_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "photo_order")
-    private Long order;
-
-    private String url;
-
-    private String type;
+//    @OneToOne
+//    @JoinColumn(name = "member_id")
+    private String buyer;
+    private Long price;
+    private Long discountPrice;
+    private boolean discountYn;
+    private String discountStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product productId;
-
-
 }
