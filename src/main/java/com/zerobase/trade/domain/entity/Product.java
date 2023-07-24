@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,8 @@ public class Product extends BaseEntity {
     private Long id;
 
     private String title;
+    // TODO: 2023-07-25 content 입력 시 글자 수 제한 exception 필요
+    @Lob
     private String content;
     private String keywords;
     @ManyToOne(fetch = FetchType.LAZY)

@@ -20,9 +20,11 @@ public class ChattingRoom extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int messageContent;
+    // TODO: 2023-07-25 content 입력 시 글자 수 제한 exception 필요
+    @Lob
+    private String messageContent;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member memberId;
+    private Member member;
 
 }

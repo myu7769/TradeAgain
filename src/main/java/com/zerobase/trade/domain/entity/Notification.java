@@ -34,6 +34,6 @@ public class Notification {
     private LocalDateTime sendTimeAt;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member memberId;
+    private Member member;
 
 }
