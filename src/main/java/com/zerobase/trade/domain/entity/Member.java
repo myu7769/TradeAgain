@@ -1,9 +1,13 @@
 package com.zerobase.trade.domain.entity;
 
 
+import com.zerobase.trade.domain.member.AccountStatus;
+import java.util.Locale;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,20 +39,18 @@ public class Member{
     private String password;
     @Column(unique = true)
     private String phone;
-    private boolean verify;
-    private String accountStatus;
+    @Enumerated(EnumType.STRING)
+    private AccountStatus accountStatus;
 
     public static Member from(MemberSignUpForm form) {
 
         return new Member().builder()
-                .account(form.getAccount())
+                .account(form.getAccount().toLowerCase(Locale.ROOT))
                 .email(form.getEmail())
                 .password(form.getPassword())
                 .name(form.getName())
                 .phone(form.getPhone())
-                .verify(true)
-                .accountStatus("approve")
-                // TODO: 2023-07-24 status enum 생성 필요
+                .accountStatus(AccountStatus.ACTIVE)
                 .build();
     }
 

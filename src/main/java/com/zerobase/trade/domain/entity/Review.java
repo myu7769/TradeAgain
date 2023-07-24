@@ -24,9 +24,12 @@ public class Review extends BaseEntity {
 //    @OneToOne
 //    @JoinColumn(name = "member_id")
     private String reviewer;
+
+    // TODO: 2023-07-25 content 입력 시 글자 수 제한 exception 필요 
+    @Lob
     private String content;
     private Double score;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member memberId;
+    private Member member;
 }

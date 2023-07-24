@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "photo")
 public class Photo extends BaseEntity {
     @Id
-    @Column(name ="photos_id", nullable = false)
+    @Column(name ="photos_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -30,7 +30,7 @@ public class Photo extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Product productId;
+    private Product product;
 
 
 }

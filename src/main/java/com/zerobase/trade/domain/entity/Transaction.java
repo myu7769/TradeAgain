@@ -24,11 +24,11 @@ public class Transaction extends BaseEntity {
 //    @JoinColumn(name = "member_id")
     private String buyer;
     private Long price;
-    private Long discountPrice;
-    private boolean discountYn;
-    private String discountStatus;
 
+    @Column(nullable = false, columnDefinition = "BIGINT default 0")
+    private Long discountPrice;
+    private boolean discountable;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Product productId;
+    private Product product;
 }

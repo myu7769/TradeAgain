@@ -20,7 +20,7 @@ import static com.zerobase.trade.exception.ErrorCode.*;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    public Member customerSignUp(MemberSignUpForm form){
+    public Member memberSignUp(MemberSignUpForm form){
 
         if (memberRepository.findByAccount(form.getAccount().toLowerCase(Locale.ROOT)).isPresent()) {
             throw new CustomException(ALREADY_REGISTER_USER);
@@ -29,13 +29,13 @@ public class MemberService {
         }
     };
 
-    public Optional<Member> customerSignIn(MemberSignInForm form) {
+    public Member memberSignIn(MemberSignInForm form) {
 
         Member member = memberRepository.findByAccount(form.getAccount())
                 .orElseThrow(()-> new CustomException(NOT_FOUND_USER));
-        // TODO: 2023-07-24 pw 매칭 구현 필요
+        // TODO: 2023-07-24 pw 매칭 구현 필요 (form의 pw와 DB의 pw matching)
 
 
-        return Optional.ofNullable(member);
+        return member;
     }
 }
