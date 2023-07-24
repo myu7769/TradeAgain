@@ -1,4 +1,4 @@
-package com.zerobase.trade.Security.config;
+package com.zerobase.trade.security.config;
 
 import static org.junit.jupiter.api.Assertions.*;
 

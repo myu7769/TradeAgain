@@ -1,4 +1,4 @@
-package com.zerobase.trade.Config;
+package com.zerobase.trade.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
