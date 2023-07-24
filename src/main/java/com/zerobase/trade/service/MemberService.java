@@ -6,12 +6,11 @@ import com.zerobase.trade.domain.member.MemberSignUpForm;
 import com.zerobase.trade.exception.CustomException;
 import com.zerobase.trade.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
+
 
 import static com.zerobase.trade.exception.ErrorCode.*;
 
@@ -20,12 +19,13 @@ import static com.zerobase.trade.exception.ErrorCode.*;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
     public Member memberSignUp(MemberSignUpForm form){
 
         if (memberRepository.findByAccount(form.getAccount().toLowerCase(Locale.ROOT)).isPresent()) {
             throw new CustomException(ALREADY_REGISTER_USER);
         }else{
-            return memberRepository.save(Member.from(form));
+            return memberRepository.save(Member.of(form, passwordEncoder.encode(form.getPassword())));
         }
     };
 
@@ -33,8 +33,10 @@ public class MemberService {
 
         Member member = memberRepository.findByAccount(form.getAccount())
                 .orElseThrow(()-> new CustomException(NOT_FOUND_USER));
-        // TODO: 2023-07-24 pw 매칭 구현 필요 (form의 pw와 DB의 pw matching)
 
+        if(!passwordEncoder.matches(form.getPassword(),member.getPassword())){
+            throw new CustomException(NOT_MATCH_ID_PASSWORD);
+        }
 
         return member;
     }

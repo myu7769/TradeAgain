@@ -15,7 +15,7 @@ public enum ErrorCode {
 
     // login
     NOT_FOUND_USER(HttpStatus.BAD_REQUEST, "일치하는 회원이 없습니다."),
-    LOGIN_CHECK_FAIL(HttpStatus.BAD_REQUEST, "아이디나 패스워드를 확인해주세요.");
+    NOT_MATCH_ID_PASSWORD(HttpStatus.BAD_REQUEST, "아이디나 패스워드를 확인해주세요.");
 
 
     private final HttpStatus httpStatus;

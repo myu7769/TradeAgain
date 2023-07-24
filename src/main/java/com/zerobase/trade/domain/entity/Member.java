@@ -42,12 +42,12 @@ public class Member{
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
 
-    public static Member from(MemberSignUpForm form) {
+    public static Member of(MemberSignUpForm form, String password) {
 
         return new Member().builder()
                 .account(form.getAccount().toLowerCase(Locale.ROOT))
                 .email(form.getEmail())
-                .password(form.getPassword())
+                .password(password)
                 .name(form.getName())
                 .phone(form.getPhone())
                 .accountStatus(AccountStatus.ACTIVE)

@@ -8,15 +8,22 @@ import com.zerobase.trade.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.zerobase.trade.exception.ErrorCode.NOT_FOUND_USER;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+
 class MemberServiceTest {
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     @Autowired
     private MemberRepository memberRepository;
     @Test
@@ -32,7 +39,7 @@ class MemberServiceTest {
                 .build();
 
         //when
-        Long newMemberId = memberService.customerSignUp(createMember).getId();
+        Long newMemberId = memberService.memberSignUp(createMember).getId();
 
         //then
         Member findMember = memberRepository.findById(newMemberId).get();
@@ -63,14 +70,14 @@ class MemberServiceTest {
                 .build();
 
         //when
-        memberService.customerSignUp(createMember);
+        memberService.memberSignUp(createMember);
 
         //then
-        Member member = memberService.customerSignIn(loginMember).orElseThrow(()-> new CustomException(NOT_FOUND_USER));
+        Member member = memberService.memberSignIn(loginMember);
 
         assertEquals(createMember.getAccount(), member.getAccount());
         assertEquals(createMember.getName(), member.getName());
-        assertEquals(createMember.getPassword(), member.getPassword());
+        assertTrue(passwordEncoder.matches(createMember.getPassword(), member.getPassword()));
         assertEquals(createMember.getPhone(), member.getPhone());
         assertEquals(createMember.getEmail(), member.getEmail());
 
