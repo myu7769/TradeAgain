@@ -5,6 +5,7 @@ import com.zerobase.trade.domain.member.MemberSignInForm;
 import com.zerobase.trade.domain.member.MemberSignUpForm;
 import com.zerobase.trade.exception.CustomException;
 import com.zerobase.trade.repository.MemberRepository;
+import com.zerobase.trade.security.token.JwtAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtAuthenticationProvider provider;
 
 //    private final RedisTemplate<String, String> redisTemplate;
 
@@ -45,7 +47,7 @@ public class MemberService {
 
     };
 
-    public Member memberSignIn(MemberSignInForm form) {
+    public String memberSignIn(MemberSignInForm form) {
 
         Member member = memberRepository.findByAccount(form.getAccount())
             .orElseThrow(()-> new CustomException(NOT_FOUND_USER));
@@ -54,6 +56,6 @@ public class MemberService {
             throw new CustomException(NOT_MATCH_ID_PASSWORD);
         }
 
-        return member;
+        return provider.createToken(member.getAccount(), member.getId());
     }
 }
