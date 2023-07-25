@@ -28,11 +28,11 @@ public class SignController {
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<Member> memberSignIn(@RequestBody MemberSignInForm form) {
-        Member member = memberService.memberSignIn(form);
+    public ResponseEntity<String> memberSignIn(@RequestBody MemberSignInForm form) {
 
-
-        return ResponseEntity.ok(member);
+        return ResponseEntity.ok()
+            .header("Authorization", memberService.memberSignIn(form))
+            .body("User successfully logged in.");
         // TODO: 2023-07-24 memberSignInResponse
     }
 }
