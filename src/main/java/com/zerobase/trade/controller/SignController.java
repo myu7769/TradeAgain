@@ -8,6 +8,7 @@ import com.zerobase.trade.exception.CustomException;
 import com.zerobase.trade.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,4 +36,5 @@ public class SignController {
             .body("User successfully logged in.");
         // TODO: 2023-07-24 memberSignInResponse
     }
+
 }

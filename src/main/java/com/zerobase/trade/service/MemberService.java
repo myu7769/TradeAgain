@@ -6,8 +6,8 @@ import com.zerobase.trade.domain.member.MemberSignUpForm;
 import com.zerobase.trade.exception.CustomException;
 import com.zerobase.trade.repository.MemberRepository;
 import com.zerobase.trade.security.token.JwtAuthenticationProvider;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +56,6 @@ public class MemberService {
             throw new CustomException(NOT_MATCH_ID_PASSWORD);
         }
 
-        return provider.createToken(member.getAccount(), member.getId());
+        return provider.createToken(member.getAccount(), member.getRoles());
     }
 }

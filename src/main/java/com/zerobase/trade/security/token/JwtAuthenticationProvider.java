@@ -4,19 +4,42 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
 
 
+@Component
+@RequiredArgsConstructor
 public class JwtAuthenticationProvider {
+
+
+    private final UserDetailsService userDetailsService;
 
     @Value("${jwt.secretKey}")
     private String secretKey;
     private long tokenValidTime = 1000L * 60 * 60 * 24;
 
-    public String createToken(String account, Long id) {
+    // bean 생성 되기 전에 secretKey 인코딩
+    @PostConstruct
+    protected void init() {
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
+    }
 
-        Claims claims = Jwts.claims().setSubject(Aes256Util.encrypt(account)).setId(Aes256Util.encrypt(id.toString()));
+    public String createToken(String account, List<String> roles) {
+
+        Claims claims = Jwts.claims().setSubject(account);
+        claims.put("roles", roles);
         Date now = new Date();
 
         String jwtToken = Jwts.builder()
@@ -26,7 +49,17 @@ public class JwtAuthenticationProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
-        return "Bearer " + jwtToken;
+        return jwtToken;
+    }
+
+    public String resolveToken(HttpServletRequest request) {
+        return request.getHeader("X-AUTH-TOKEN");
+    }
+
+    // 인증 성공시 SecurityContextHolder에 저장할 Authentication 객체 생성
+    public Authentication getAuthentication(String token) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserAccount(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     public boolean validateToken(String jwtToken) {
@@ -37,10 +70,12 @@ public class JwtAuthenticationProvider {
             return false;
         }
     }
+    public String getUserAccount(String token) {
+        return Jwts.parser().setSigningKey(secretKey)
+            .parseClaimsJws(token).getBody().getSubject();
+    }
 
-/*    public UserVo getUserVo(String token) {
-        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-        return new UserVo(Long.valueOf(Aes256Util.decrypt(claims.getId())), Aes256Util.decrypt(claims.getSubject()));
 
-    }*/
+
+
 }
