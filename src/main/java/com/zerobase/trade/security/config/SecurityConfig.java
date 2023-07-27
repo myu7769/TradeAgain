@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -33,6 +34,7 @@ public class SecurityConfig {
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authorizeRequests()
+        .antMatchers(HttpMethod.GET, "/**").permitAll()
         .antMatchers("/**/signUp", "/**/signIn", "/h2-console/*", "/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**").permitAll()
         .anyRequest().hasRole("USER")
         .and()
