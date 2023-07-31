@@ -6,11 +6,16 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.zerobase.trade.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import static com.zerobase.trade.exception.ErrorCode.ALREADY_REGISTER_EMAIL;
+import static com.zerobase.trade.exception.ErrorCode.NOT_VALID_TOKEN;
 
 @RequiredArgsConstructor
 @Component
@@ -23,9 +28,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = jwtAuthenticationProvider.resolveToken(request);
 
-        if (token != null && jwtAuthenticationProvider.validateToken(token)){
-            Authentication auth = jwtAuthenticationProvider.getAuthentication(token);    // 인증 객체 생성
-            SecurityContextHolder.getContext().setAuthentication(auth); // SecurityContextHolder 인증
+        if (token != null) {
+            if (jwtAuthenticationProvider.validateToken(token)) {
+                Authentication auth = jwtAuthenticationProvider.getAuthentication(token); // Create Authentication object
+                SecurityContextHolder.getContext().setAuthentication(auth); // Authenticate through SecurityContextHolder
+            } else {
+                throw new CustomException(NOT_VALID_TOKEN);
+            }
         }
 
         filterChain.doFilter(request, response);

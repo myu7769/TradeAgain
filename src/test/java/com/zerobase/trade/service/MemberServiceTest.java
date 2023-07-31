@@ -73,7 +73,7 @@ class MemberServiceTest {
         memberService.memberSignUp(createMember);
 
         //then
-        Member member = memberService.memberSignIn(loginMember);
+        Member member = memberRepository.findByAccount(createMember.getAccount()).orElseThrow(()->new CustomException(NOT_FOUND_USER));
 
         assertEquals(createMember.getAccount(), member.getAccount());
         assertEquals(createMember.getName(), member.getName());

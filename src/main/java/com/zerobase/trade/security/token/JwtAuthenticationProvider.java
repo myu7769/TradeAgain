@@ -1,5 +1,6 @@
 package com.zerobase.trade.security.token;
 
+import com.zerobase.trade.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Component;
 public class JwtAuthenticationProvider {
 
 
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Value("${jwt.secretKey}")
     private String secretKey;
@@ -53,7 +54,7 @@ public class JwtAuthenticationProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
+        return request.getHeader("Authorization");
     }
 
     // 인증 성공시 SecurityContextHolder에 저장할 Authentication 객체 생성

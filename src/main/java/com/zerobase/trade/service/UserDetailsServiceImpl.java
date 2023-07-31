@@ -1,5 +1,7 @@
 package com.zerobase.trade.service;
 
+import com.zerobase.trade.domain.entity.Member;
+import com.zerobase.trade.domain.member.MemberDTO;
 import com.zerobase.trade.exception.CustomException;
 import com.zerobase.trade.exception.ErrorCode;
 import com.zerobase.trade.repository.MemberRepository;
@@ -21,6 +23,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String account) {
 
-    return memberRepository.findByAccount(account).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+    Member member = memberRepository.findByAccount(account).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+    MemberDTO memberDTO = MemberDTO.builder()
+            .account(member.getAccount())
+            .name(member.getName())
+            .email(member.getEmail())
+            .phone(member.getPhone())
+            .roles(member.getRoles())
+            .build();
+
+    return memberDTO;
+
   }
 }
