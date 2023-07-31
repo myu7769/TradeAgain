@@ -1,13 +1,15 @@
 package com.zerobase.trade.service;
 
 import com.zerobase.trade.domain.entity.Member;
+import com.zerobase.trade.domain.member.MemberDTO;
 import com.zerobase.trade.domain.member.MemberSignInForm;
 import com.zerobase.trade.domain.member.MemberSignUpForm;
 import com.zerobase.trade.exception.CustomException;
 import com.zerobase.trade.repository.MemberRepository;
+import com.zerobase.trade.repository.redis.RedisMemberRepository;
 import com.zerobase.trade.security.token.JwtAuthenticationProvider;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +26,9 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtAuthenticationProvider provider;
 
-//    private final RedisTemplate<String, String> redisTemplate;
+//    private final RedisTemplate<String, MemberDTO> redisTemplate;
 
+    private final RedisMemberRepository redisMemberRepository;
 
     public Member memberSignUp(MemberSignUpForm form){
 
@@ -42,7 +45,7 @@ public class MemberService {
         }
 
         Member member = Member.of(form, passwordEncoder.encode(form.getPassword()));
-//        redisTemplate.opsForValue().set(member.getAccount() , member.getAccount());
+//        redisMemberRepository.save(MemberDTO.from(member));
         return memberRepository.save(member);
 
     };
@@ -57,5 +60,9 @@ public class MemberService {
         }
 
         return provider.createToken(member.getAccount(), member.getRoles());
+    }
+
+    public boolean memberDelete(String userAccount) {
+        return memberRepository.deleteByAccount(userAccount);
     }
 }

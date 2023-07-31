@@ -35,6 +35,7 @@ public class SecurityConfig {
         .and()
         .authorizeRequests()
         .antMatchers(HttpMethod.GET, "/**").permitAll()
+            .antMatchers(HttpMethod.DELETE, "/member/delete").permitAll()
         .antMatchers("/**/signUp", "/**/signIn", "/h2-console/*", "/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**").permitAll()
         .anyRequest().hasRole("USER")
         .and()

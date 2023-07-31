@@ -36,7 +36,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "member")
-public class Member implements UserDetails {
+public class Member {
     @Id
     @Column(name ="member_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,38 +72,6 @@ public class Member implements UserDetails {
                 .accountStatus(AccountStatus.ACTIVE)
                 .build();
     }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-    }
-
-    @Override
-    public String getUsername() {
-        return this.account;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
 /*    @OneToMany(mappedBy = "member",
         cascade = CascadeType.ALL,
         fetch = FetchType.LAZY)

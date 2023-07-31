@@ -20,6 +20,7 @@ public class ExceptionController {
         return ResponseEntity.badRequest().body(new ExceptionResponse(customException.getMessage(), customException.getErrorCode()));
     }
 
+
     @Getter
     @ToString
     @AllArgsConstructor
