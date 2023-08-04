@@ -9,7 +9,6 @@ import lombok.Builder;
 public class ProductDto {
 
   private Long id;
-
   private String title;
   // TODO: 2023-07-25 content 입력 시 글자 수 제한 exception 필요
   @Lob

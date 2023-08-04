@@ -1,11 +1,8 @@
 package com.zerobase.trade.domain.entity;
 
-import com.zerobase.trade.domain.member.AccountStatus;
-import com.zerobase.trade.domain.member.MemberSignUpForm;
 import com.zerobase.trade.domain.model.BaseEntity;
-import com.zerobase.trade.domain.product.productCreateRequestForm;
-import java.util.Collections;
-import java.util.Locale;
+import com.zerobase.trade.domain.product.productRequestForm;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,10 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Entity
 @Getter
@@ -38,11 +33,24 @@ public class Product extends BaseEntity {
     @Lob
     private String content;
     private String keywords;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public static Product of(productCreateRequestForm form,Member member) {
+    public static Product of(productRequestForm form, Member member) {
 
         return Product.builder()
             .title(form.getTitle())

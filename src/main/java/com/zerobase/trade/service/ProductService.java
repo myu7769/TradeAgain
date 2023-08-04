@@ -1,26 +1,24 @@
 package com.zerobase.trade.service;
 
 
-import static com.zerobase.trade.exception.ErrorCode.NOT_FOUND_USER;
-
-
 import com.zerobase.trade.domain.entity.Member;
 import com.zerobase.trade.domain.entity.Product;
 import com.zerobase.trade.domain.product.ProductDto;
-import com.zerobase.trade.domain.product.productCreateRequestForm;
+import com.zerobase.trade.domain.product.productRequestForm;
+import com.zerobase.trade.domain.product.productUpdateRequestForm;
 import com.zerobase.trade.exception.CustomException;
 import com.zerobase.trade.repository.MemberRepository;
 import com.zerobase.trade.repository.ProductRepository;
-import com.zerobase.trade.repository.redis.RedisMemberRepository;
 import com.zerobase.trade.security.token.JwtAuthenticationProvider;
-import java.net.ContentHandler;
+
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import static com.zerobase.trade.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,11 +28,14 @@ public class ProductService {
     private final MemberRepository memberRepository;
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
-    public ProductDto productCreate(productCreateRequestForm form, String token) {
+    public ProductDto productCreate(productRequestForm form, String token) {
 
         Member member = memberRepository.findByAccount(jwtAuthenticationProvider.getUserAccount(token))
             .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
 
+        if(!member.getAccount().equals(form.getAccount())){
+            throw new CustomException(NOT_VALID_TOKEN);
+        }
 
         Product product = productRepository.save(Product.of(form,member));
 
@@ -57,4 +58,28 @@ public class ProductService {
         return productDtos;
     }
 
-  }
+    @Transactional
+    public ProductDto productUpdate(productUpdateRequestForm form, String token) {
+
+        Member member = memberRepository.findByAccount(jwtAuthenticationProvider.getUserAccount(token))
+                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+
+        if(!member.getAccount().equals(form.getAccount())){
+            throw new CustomException(NOT_VALID_TOKEN);
+        }
+
+        Product product = productRepository.findById(form.getId())
+                .orElseThrow(() -> new CustomException(PRODUCT_NOT_FOUND));
+
+        product.setContent(form.getContent());
+        product.setTitle(form.getTitle());
+        product.setKeywords(form.getKeyword());
+
+        return ProductDto.builder()
+                .id(product.getId())
+                .title(product.getTitle())
+                .content(product.getContent())
+                .keywords(product.getKeywords())
+                .build();
+    }
+}

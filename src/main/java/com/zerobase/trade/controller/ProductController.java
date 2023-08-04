@@ -1,18 +1,14 @@
 package com.zerobase.trade.controller;
 
 
-import com.zerobase.trade.domain.entity.Member;
 import com.zerobase.trade.domain.product.ProductDto;
-import com.zerobase.trade.domain.product.productCreateRequestForm;
-import com.zerobase.trade.domain.product.productSearchRequestForm;
-import com.zerobase.trade.security.token.JwtAuthenticationProvider;
+import com.zerobase.trade.domain.product.productRequestForm;
+import com.zerobase.trade.domain.product.productUpdateRequestForm;
 import com.zerobase.trade.service.ProductService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +26,7 @@ public class ProductController {
 
     @PostMapping("/create")
     public ResponseEntity<ProductDto> productCreate(@RequestHeader("Authorization") String token,
-                                            @RequestBody productCreateRequestForm form) {
+                                            @RequestBody productRequestForm form) {
 
         return ResponseEntity.ok().body(productService.productCreate(form, token));
     }
@@ -40,11 +36,12 @@ public class ProductController {
         return productService.findAll(pageable);
     }
 
-//    @PostMapping("/update")
-//    public ResponseEntity<ProductResponse> productUpdate(@RequestHeader("Authorization") String token,
-//        @RequestBody productUpdateRequestForm form) {
-//        return null;
-//    }
+    @PostMapping("/update")
+    public ResponseEntity<ProductDto> productUpdate(@RequestHeader("Authorization") String token,
+        @RequestBody productUpdateRequestForm form) {
+
+        return ResponseEntity.ok().body(productService.productUpdate(form, token));
+    }
 
 //    @DeleteMapping("/delete")
 //    public ResponseEntity<String> productDelete(@RequestHeader("Authorization") String token,

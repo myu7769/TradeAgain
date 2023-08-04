@@ -18,8 +18,11 @@ public enum ErrorCode {
     // login
     NOT_FOUND_USER(HttpStatus.BAD_REQUEST, "일치하는 회원이 없습니다."),
     NOT_VALID_TOKEN(HttpStatus.BAD_REQUEST, "유효한 접근이 아닙니다."),
-    NOT_MATCH_ID_PASSWORD(HttpStatus.BAD_REQUEST, "아이디나 패스워드를 확인해주세요.");
+    NOT_MATCH_ID_PASSWORD(HttpStatus.BAD_REQUEST, "아이디나 패스워드를 확인해주세요."),
 
+    // product
+
+    PRODUCT_NOT_FOUND(HttpStatus.BAD_REQUEST, "제품을 찾을 수 없습니다.");
 
 
 
