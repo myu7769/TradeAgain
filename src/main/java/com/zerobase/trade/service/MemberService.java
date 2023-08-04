@@ -1,7 +1,6 @@
 package com.zerobase.trade.service;
 
 import com.zerobase.trade.domain.entity.Member;
-import com.zerobase.trade.domain.member.MemberDTO;
 import com.zerobase.trade.domain.member.MemberSignInForm;
 import com.zerobase.trade.domain.member.MemberSignUpForm;
 import com.zerobase.trade.exception.CustomException;
@@ -9,7 +8,6 @@ import com.zerobase.trade.repository.MemberRepository;
 import com.zerobase.trade.repository.redis.RedisMemberRepository;
 import com.zerobase.trade.security.token.JwtAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

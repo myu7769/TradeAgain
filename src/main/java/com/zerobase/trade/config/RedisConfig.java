@@ -1,7 +1,6 @@
 package com.zerobase.trade.config;
 
-import com.zerobase.trade.domain.entity.Member;
-import com.zerobase.trade.domain.member.MemberDTO;
+import com.zerobase.trade.domain.member.MemberDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -32,8 +31,8 @@ public class RedisConfig {
   }
 
   @Bean
-  public RedisTemplate<String, MemberDTO> redisTemplate(){
-    RedisTemplate<String, MemberDTO> redisTemplate = new RedisTemplate<>();
+  public RedisTemplate<String, MemberDto> redisTemplate(){
+    RedisTemplate<String, MemberDto> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory());
     redisTemplate.setKeySerializer(new StringRedisSerializer());
     redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());

@@ -1,14 +1,13 @@
 package com.zerobase.trade.service;
 
 import com.zerobase.trade.domain.entity.Member;
-import com.zerobase.trade.domain.member.MemberDTO;
+import com.zerobase.trade.domain.member.MemberDto;
 import com.zerobase.trade.exception.CustomException;
 import com.zerobase.trade.exception.ErrorCode;
 import com.zerobase.trade.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     Member member = memberRepository.findByAccount(account).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-    MemberDTO memberDTO = MemberDTO.builder()
+    MemberDto memberDTO = MemberDto.builder()
             .account(member.getAccount())
             .name(member.getName())
             .email(member.getEmail())

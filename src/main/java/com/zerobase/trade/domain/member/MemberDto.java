@@ -10,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
 import javax.persistence.Id;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @RedisHash(value = "member", timeToLive = 3600)
-public class MemberDTO implements UserDetails {
+public class MemberDto implements UserDetails {
 
 
     @Id
@@ -35,9 +34,9 @@ public class MemberDTO implements UserDetails {
 
     private List<String> roles = new ArrayList<>();
 
-    public static MemberDTO from(Member form) {
+    public static MemberDto from(Member form) {
 
-        return new MemberDTO().builder()
+        return new MemberDto().builder()
                 .account(form.getAccount().toLowerCase(Locale.ROOT))
                 .email(form.getEmail())
                 .name(form.getName())
