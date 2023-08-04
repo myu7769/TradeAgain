@@ -1,6 +1,11 @@
 package com.zerobase.trade.domain.entity;
 
+import com.zerobase.trade.domain.member.AccountStatus;
+import com.zerobase.trade.domain.member.MemberSignUpForm;
 import com.zerobase.trade.domain.model.BaseEntity;
+import com.zerobase.trade.domain.product.productCreateRequestForm;
+import java.util.Collections;
+import java.util.Locale;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,5 +41,15 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public static Product of(productCreateRequestForm form,Member member) {
+
+        return Product.builder()
+            .title(form.getTitle())
+            .content(form.getContent())
+            .keywords(form.getKeyword())
+            .member(member)
+            .build();
+    }
 
 }
