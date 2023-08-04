@@ -1,6 +1,7 @@
 package com.zerobase.trade.controller;
 
 
+import com.zerobase.trade.domain.product.ProductDeleteRequestForm;
 import com.zerobase.trade.domain.product.ProductDto;
 import com.zerobase.trade.domain.product.productRequestForm;
 import com.zerobase.trade.domain.product.productUpdateRequestForm;
@@ -9,12 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,10 +39,12 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.productUpdate(form, token));
     }
 
-//    @DeleteMapping("/delete")
-//    public ResponseEntity<String> productDelete(@RequestHeader("Authorization") String token,
-//        @RequestBody productDeleteRequestForm form){
-//
-//        return ResponseEntity.ok().body("delete ok");;
-//    }
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> productDelete(@RequestHeader("Authorization") String token,
+        @RequestBody ProductDeleteRequestForm form){
+
+        productService.productDelete(form,token);
+
+        return ResponseEntity.ok().body("delete ok");
+    }
 }

@@ -3,6 +3,7 @@ package com.zerobase.trade.service;
 
 import com.zerobase.trade.domain.entity.Member;
 import com.zerobase.trade.domain.entity.Product;
+import com.zerobase.trade.domain.product.ProductDeleteRequestForm;
 import com.zerobase.trade.domain.product.ProductDto;
 import com.zerobase.trade.domain.product.productRequestForm;
 import com.zerobase.trade.domain.product.productUpdateRequestForm;
@@ -12,6 +13,7 @@ import com.zerobase.trade.repository.ProductRepository;
 import com.zerobase.trade.security.token.JwtAuthenticationProvider;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -81,5 +83,25 @@ public class ProductService {
                 .content(product.getContent())
                 .keywords(product.getKeywords())
                 .build();
+    }
+
+    public boolean productDelete(ProductDeleteRequestForm form, String token) {
+
+        Member member = memberRepository.findByAccount(jwtAuthenticationProvider.getUserAccount(token))
+                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+
+        if(!member.getAccount().equals(form.getAccount())){
+            throw new CustomException(NOT_VALID_TOKEN);
+        }
+
+        Optional<Product> product = productRepository.findById(form.getId());
+
+        if(product.isPresent()){
+            productRepository.deleteById(form.getId());
+        } else {
+            throw new CustomException(PRODUCT_NOT_FOUND);
+        }
+
+        return true;
     }
 }
