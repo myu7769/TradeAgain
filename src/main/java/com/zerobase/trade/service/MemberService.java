@@ -1,6 +1,8 @@
 package com.zerobase.trade.service;
 
 import com.zerobase.trade.domain.entity.Member;
+import com.zerobase.trade.domain.entity.Product;
+import com.zerobase.trade.domain.member.MemberDeleteRequestForm;
 import com.zerobase.trade.domain.member.MemberSignInForm;
 import com.zerobase.trade.domain.member.MemberSignUpForm;
 import com.zerobase.trade.exception.CustomException;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
+import java.util.Optional;
 
 
 import static com.zerobase.trade.exception.ErrorCode.*;
@@ -22,7 +25,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtAuthenticationProvider provider;
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
 //    private final RedisTemplate<String, MemberDTO> redisTemplate;
 
@@ -57,10 +60,20 @@ public class MemberService {
             throw new CustomException(NOT_MATCH_ID_PASSWORD);
         }
 
-        return provider.createToken(member.getAccount(), member.getRoles());
+        return jwtAuthenticationProvider.createToken(member.getAccount(), member.getRoles());
     }
 
-    public boolean memberDelete(String userAccount) {
-        return memberRepository.deleteByAccount(userAccount);
+    public boolean memberDelete(String token , MemberDeleteRequestForm form) {
+
+        Member member = memberRepository.findByAccount(jwtAuthenticationProvider.getUserAccount(token))
+                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+
+        if(!member.getAccount().equals(form.getAccount())){
+            throw new CustomException(NOT_VALID_TOKEN);
+        }
+
+        memberRepository.delete(member);
+
+        return true;
     }
 }
