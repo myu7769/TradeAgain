@@ -2,7 +2,6 @@ package com.zerobase.trade.controller;
 
 
 import com.zerobase.trade.domain.entity.Member;
-import com.zerobase.trade.domain.member.MemberDTO;
 import com.zerobase.trade.domain.member.MemberDeleteRequestForm;
 import com.zerobase.trade.domain.member.MemberSignInForm;
 import com.zerobase.trade.domain.member.MemberSignUpForm;
@@ -11,7 +10,6 @@ import com.zerobase.trade.security.token.JwtAuthenticationProvider;
 import com.zerobase.trade.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import static com.zerobase.trade.exception.ErrorCode.NOT_FOUND_USER;
@@ -41,11 +39,10 @@ public class SignController {
 
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> memberDelete(@RequestHeader("Authorization") String token){
+    public ResponseEntity<String> memberDelete(@RequestHeader("Authorization") String token,
+                                               @RequestBody MemberDeleteRequestForm form ){
 
-        if(!memberService.memberDelete(jwtAuthenticationProvider.getUserAccount(token))){
-            throw new CustomException(NOT_FOUND_USER);
-        }
+        memberService.memberDelete(token, form);
 
         return ResponseEntity.ok().body("delete ok");
     }
