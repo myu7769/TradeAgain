@@ -41,12 +41,7 @@ public class ProductService {
 
         Product product = productRepository.save(Product.of(form,member));
 
-        return ProductDto.builder()
-                .id(product.getId())
-                .keywords(product.getKeywords())
-                .content(product.getContent())
-                .title(product.getTitle())
-                .build();
+        return ProductDto.from(product);
     }
 
     public List<ProductDto> findAll(Pageable pageable) {
