@@ -72,12 +72,7 @@ public class ProductService {
         product.setTitle(form.getTitle());
         product.setKeywords(form.getKeyword());
 
-        return ProductDto.builder()
-                .id(product.getId())
-                .title(product.getTitle())
-                .content(product.getContent())
-                .keywords(product.getKeywords())
-                .build();
+        return ProductDto.from(product);
     }
 
     public boolean productDelete(ProductDeleteRequestForm form, String token) {
