@@ -1,6 +1,8 @@
 package com.zerobase.trade.controller;
 
 
+import com.zerobase.trade.domain.photo.PhotoRequestForm;
+import com.zerobase.trade.domain.product.productRequestForm;
 import com.zerobase.trade.service.PhotoService;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,8 +30,12 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @GetMapping("/upload")
-    public ResponseEntity<Object> upload(MultipartFile[] multipartFileList) throws Exception {
+    public ResponseEntity<Object> uploadProduct(MultipartFile[] multipartFileList
+                             , @RequestBody PhotoRequestForm form
+                                                ) throws Exception {
 
-        return ResponseEntity.ok().body(photoService.upload(multipartFileList));
+        return ResponseEntity.ok().body(photoService.upload(multipartFileList, form));
     }
+
+
 }
