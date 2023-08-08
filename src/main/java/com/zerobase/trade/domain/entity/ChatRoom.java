@@ -13,10 +13,10 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "chattingRoom")
-public class ChattingRoom extends BaseEntity {
+@Table(name = "chat_room")
+public class ChatRoom extends BaseEntity {
     @Id
-    @Column(name ="chattingRoom_id", nullable = false)
+    @Column(name ="chat_room_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

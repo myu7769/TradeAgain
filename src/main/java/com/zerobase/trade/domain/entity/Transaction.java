@@ -20,8 +20,6 @@ public class Transaction extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @OneToOne
-//    @JoinColumn(name = "member_id")
     private String buyer;
     private Long price;
 
