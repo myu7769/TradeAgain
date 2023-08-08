@@ -10,6 +10,7 @@ import com.zerobase.trade.domain.product.productUpdateRequestForm;
 import com.zerobase.trade.exception.CustomException;
 import com.zerobase.trade.repository.MemberRepository;
 import com.zerobase.trade.repository.ProductRepository;
+import com.zerobase.trade.repository.TransactionRepository;
 import com.zerobase.trade.security.token.JwtAuthenticationProvider;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
+
+    private final TransactionRepository transactionRepository;
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
     public ProductDto productCreate(productRequestForm form, String token) {
