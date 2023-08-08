@@ -21,16 +21,7 @@ public class Photo extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "photo_order")
-    private Long order;
-
+    private String name;
     private String url;
-
-    private String type;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
-
 
 }

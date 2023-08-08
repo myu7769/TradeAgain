@@ -21,18 +21,18 @@ public class PhotoOrder extends BaseEntity {
     private Long id;
 
     @Column(name = "order", nullable = false)
-    private Integer order;
+    private Long order;
 
     @ManyToOne
     @JoinColumn(name = "photo_id", nullable = false)
     private Photo photo;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = true)
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "chat_room_id", nullable = true)
+    @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
 
 
